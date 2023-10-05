@@ -1,5 +1,5 @@
 .container{
-  width: 50rem;
+  width: 70rem;
   border: 0.3rem solid black;
   padding: 3rem 3rem;
   background-color: white;
@@ -18,7 +18,7 @@
   margin-bottom: 2rem; 
 }
 input[type=range]{
-  -webkit-appearance: none;
+  appearance: none;
   cursor: pointer;
   margin-right: 1.5rem;
 }

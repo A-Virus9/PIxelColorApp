@@ -6,20 +6,46 @@ export default function App() {
   const [heiVal, setHeival] = useState("1");
   const [rows, setRows] = useState("1");
   const [columns, setColumns] = useState("1");
-  let color = "black";
+  const [colors, setColors] = useState([]);
+  const [currentColor, setCurrentColor] = useState("black");
+  const [tempCol, setTempCol] = useState();
 
   function handleCreate() {
     setRows(widVal);
     setColumns(heiVal);
+    setColors([]);
+  }
+
+  function handleClear() {
+    setColors([]);
+  }
+
+  function handleEraser() {
+    setTempCol(currentColor);
+    setCurrentColor("white");
+  }
+
+  function handlePaint() {
+    setCurrentColor(tempCol);
+  }
+
+  function handleClick(e) {
+    setColors((colors) => {
+      colors[e.target.id] = currentColor;
+      return colors;
+    });
+    e.target.style.backgroundColor = colors[e.target.id];
   }
 
   function Grid() {
     let elements = [];
-    for (let i = 1; i <= rows * columns; i++) {
+    for (let i = 0; i < rows * columns; i++) {
       elements.push(
         <div
           className="box"
-          onClick={(e) => (e.target.style.backgroundColor = color)}
+          id={i}
+          onClick={(e) => handleClick(e)}
+          style={{ backgroundColor: colors[i] }}
         ></div>
       );
     }
@@ -35,7 +61,7 @@ export default function App() {
             <input
               type="range"
               min="1"
-              max="30"  
+              max="40"
               value={widVal}
               onChange={(e) => {
                 setWidval(e.target.value);
@@ -50,7 +76,7 @@ export default function App() {
             <input
               type="range"
               min="1"
-              max="30"
+              max="40"
               value={heiVal}
               onChange={(e) => {
                 setHeival(e.target.value);
@@ -61,13 +87,26 @@ export default function App() {
         </div>
       </div>
       <div className="buttons">
-        <button className="create" onClick={() => handleCreate()}>
+        <button className="create" onClick={(e) => handleCreate(e)}>
           Create Grid
         </button>
-        <button className="clear">Clear Grid</button>
-        <input type="color" onChange={(e) => (color = e.target.value)} />
-        <button className="erase">Erase</button>
-        <button className="paint">Paint</button>
+        <button className="clear" onClick={(e) => handleClear(e)}>
+          Clear Grid
+        </button>
+        <input
+          id="colorInput"
+          type="color"
+          value={currentColor}
+          onChange={(e) => {
+            setCurrentColor(e.target.value);
+          }}
+        />
+        <button className="erase" onClick={(e) => handleEraser(e)}>
+          Eraser
+        </button>
+        <button className="paint" onClick={(e) => handlePaint(e)}>
+          Paint
+        </button>
       </div>
       <div
         className="grid"
